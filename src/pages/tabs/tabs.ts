@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs/rx'
+
+import { UserService } from '../../providers/user-service';
 import { HomePage } from '../home/home';
 import { AboutPage } from '../about/about';
 import { KidsPage } from '../kids/kids';
 import { SignUpPage } from '../sign-up/sign-up';
 import { SignInPage } from '../sign-in/sign-in';
-import { CurrentUserService } from '../../providers/current-user-service'
-import { Observable } from 'rxjs/rx'
 
 @Component({
   templateUrl: 'tabs.html',
-  providers: [CurrentUserService]
 })
 export class TabsPage {
   // this tells the tabs component which Pages
@@ -17,12 +17,13 @@ export class TabsPage {
   tab2Root: any = HomePage
   tab3Root: any = AboutPage
   tab4Root: any = KidsPage
-  tab5Root: any = SignInPage
-  tab6Root: any = SignUpPage
+  tab5Root: any = SignUpPage
+  tab6Root: any = SignInPage
   isAuthenticated: boolean
-  constructor(currentUserService: CurrentUserService) {
-    currentUserService.isAuthenticated.subscribe(
-      (val) => this.isAuthenticated = val
-    )
+
+  constructor(public userService: UserService) {
+    userService.current.map((user) => !!user).subscribe(
+        (val) => { this.isAuthenticated = val }
+      )
   }
 }

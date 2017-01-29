@@ -12,24 +12,26 @@
 
 </ion-header>
 
-
 <ion-content padding>
   <form #user="ngForm" (ngSubmit)="signUp(user)">
     <ion-list>
       <ion-item>
         <ion-label floating>First Name</ion-label>
-        <ion-input type="text" ngModel required name="first_name"></ion-input>
+        <ion-input type="text" [(ngModel)]="newUser.first_name" name="first_name" required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Email</ion-label>
-        <ion-input type="text" ngModel name="email" required></ion-input>
+        <ion-input type="text" [(ngModel)]="newUser.email" name="email" required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Password</ion-label>
-        <ion-input type="password" ngModel name="password"></ion-input>
+        <ion-input type="password" [(ngModel)]="newUser.password" name="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Phone Number (Optional)</ion-label>
+        <ion-input type="text" [(ngModel)]="newUser.phone_number" name="phone_number"></ion-input>
       </ion-item>
     </ion-list>
-    <p>Form value: {{ user.value | json }}</p>
     <div padding>
       <button ion-button color="primary" block type="submit">Sign Up</button>
     </div>

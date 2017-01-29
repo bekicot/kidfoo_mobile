@@ -4,8 +4,10 @@ import { MyApp } from './app.component';
 import { Storage } from '@ionic/storage';
 
 // Services
-import { CurrentUserService } from '../providers/current-user-service';
-import { User, UserService } from '../providers/user-service';
+import { User } from '../providers/user';
+import { UserService } from '../providers/user-service';
+import { ToasterService } from '../providers/toaster-service';
+import { SignedHttpClient } from '../providers/signed-http-client';
 
 // Pages
 import { AboutPage } from '../pages/about/about';
@@ -45,6 +47,6 @@ import { SignInPage } from '../pages/sign-in/sign-in';
     SignUpPage,
     SignInPage
   ],
-  providers: [Storage, CurrentUserService, UserService, User, { provide: ErrorHandler, useClass: IonicErrorHandler }]
+  providers: [Storage, User, UserService, ToasterService, SignedHttpClient, { provide: ErrorHandler, useClass: IonicErrorHandler }]
 })
 export class AppModule {}
