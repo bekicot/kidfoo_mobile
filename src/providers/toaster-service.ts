@@ -31,19 +31,34 @@ export class ToasterService {
     )
   }
 
-  sendToast(payload: string): Promise<any> {
+  sendToast(payload: any): Promise<any> {
     let toast: Promise<any>;
+    let message = this._sanitize_payload(payload)
     if(window['cordova'].platformId != 'browser'){
-      toast = Toast.show(payload, this.config.get('toasterDuration'), this.config.get('toasterPosition')).toPromise()
+      toast = Toast.show(message, this.config.get('toasterDuration'), this.config.get('toasterPosition')).toPromise()
     } else {
       toast = new Promise((resolve, reject)=> {
         let t = this.toast.create({
-          message: payload,
+          message: message,
           duration: this.config.get('toasterDuration')
         })
         t.present().then(() => resolve(true) )
       })
     }
     return toast;
+  }
+
+  private _sanitize_payload(payload: string|ArrayLike<string>|Object): string {
+    let sanitized: string = '';
+    if(payload instanceof Array){
+      sanitized = payload.join(', ')
+    }else if(typeof payload === 'string'){
+      sanitized = payload
+    } else {
+      for(const value in payload) {
+        sanitized += payload[value] + ' '
+      }
+    }
+    return sanitized
   }
 }

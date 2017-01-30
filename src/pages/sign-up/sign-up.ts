@@ -27,9 +27,7 @@ export class SignUpPage {
 
   signUp(user: NgForm): void {
     this.userService.create(user.value as User).then(
-      () => {
-        this.toaster.sendToast('Successfully Registered')
-      }
+      () => this.toaster.sendToast('Successfully Registered')
     )
   }
 

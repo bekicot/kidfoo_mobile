@@ -1,7 +1,10 @@
 import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Storage } from '@ionic/storage';
+
+// ErrorHandler
+import { KidfoErrorHandler } from './kidfo-error-handler';
 
 // Services
 import { User } from '../providers/user';
@@ -32,7 +35,7 @@ import { SignInPage } from '../pages/sign-in/sign-in';
   imports: [
     IonicModule.forRoot(MyApp,{
       kidfooApiUrl: 'http://192.168.1.2:3000/api/v1',
-      toasterDuration: '100000',
+      toasterDuration: '5000',
       toasterPosition: 'center'
     })
   ],
@@ -47,6 +50,6 @@ import { SignInPage } from '../pages/sign-in/sign-in';
     SignUpPage,
     SignInPage
   ],
-  providers: [Storage, User, UserService, ToasterService, SignedHttpClient, { provide: ErrorHandler, useClass: IonicErrorHandler }]
+  providers: [Storage, User, UserService, ToasterService, SignedHttpClient, { provide: ErrorHandler, useClass: KidfoErrorHandler }]
 })
 export class AppModule {}
