@@ -19,9 +19,6 @@ export class SignUpPage {
               public userService: UserService,
               public toaster: ToasterService
               ) {
-    this.newUser['first_name'] = 'Yana Agun Siswanto'
-    this.newUser['email'] = 'yana.developer@gmail.com'
-    this.newUser['password'] = '123456'
   }
 
   ionViewDidLoad() {
@@ -29,7 +26,11 @@ export class SignUpPage {
   }
 
   signUp(user: NgForm): void {
-    this.userService.create(user.value as User)
+    this.userService.create(user.value as User).then(
+      () => {
+        this.toaster.sendToast('Successfully Registered')
+      }
+    )
   }
 
 }

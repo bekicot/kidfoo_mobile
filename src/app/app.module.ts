@@ -31,7 +31,7 @@ import { SignInPage } from '../pages/sign-in/sign-in';
   ],
   imports: [
     IonicModule.forRoot(MyApp,{
-      kidfooApiUrl: 'http://localhost:3000/api/v1',
+      kidfooApiUrl: 'http://192.168.1.2:3000/api/v1',
       toasterDuration: '100000',
       toasterPosition: 'center'
     })

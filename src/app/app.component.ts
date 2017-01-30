@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, Config } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { ToasterService } from '../providers/toaster-service';
@@ -17,7 +17,6 @@ export class MyApp {
   password = null
 
   constructor(public platform: Platform,
-              public config: Config,
               public toaster: ToasterService,
               public userService: UserService) {
     platform.ready().then(() => {

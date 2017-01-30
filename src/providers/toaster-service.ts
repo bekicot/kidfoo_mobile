@@ -3,8 +3,7 @@ import { Http } from '@angular/http';
 import { Subject, ReplaySubject } from 'rxjs/rx';
 import { Toast } from 'ionic-native';
 
-
-import { Config } from 'ionic-angular';
+import { Config, ToastController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 
 /*
@@ -24,7 +23,9 @@ export class ToasterService {
   private message   = new Subject<Message>()
   messages  = new ReplaySubject<Message>(20)
 
-  constructor(public http: Http, public config: Config) {
+  constructor(public http: Http,
+              public config: Config,
+              public toast: ToastController) {
     this.message.subscribe(
       payload => this.messages.next(payload)
     )
@@ -36,8 +37,11 @@ export class ToasterService {
       toast = Toast.show(payload, this.config.get('toasterDuration'), this.config.get('toasterPosition')).toPromise()
     } else {
       toast = new Promise((resolve, reject)=> {
-        console.log(payload);
-        resolve(true);
+        let t = this.toast.create({
+          message: payload,
+          duration: this.config.get('toasterDuration')
+        })
+        t.present().then(() => resolve(true) )
       })
     }
     return toast;

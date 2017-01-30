@@ -1,5 +1,5 @@
 {
-  "name": "KidFoo",
+  "name": "kidfo_mobile",
   "author": "Yana Agun Siswanto",
   "homepage": "https://github.com/bekicot/kidfoo_mobile",
   "private": true,
@@ -49,5 +49,5 @@
       "locator": "ios"
     }
   ],
-  "description": "kidfoo_mobile: An Ionic project"
+  "description": "Kidfo Mobile"
 }

@@ -1,3 +1,4 @@
+import { ToasterService } from './toaster-service';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Config } from 'ionic-angular';
@@ -21,19 +22,22 @@ export class UserService {
   loginUrl: string
   token?: string
   users: User[]
-  current: ReplaySubject<User> = new ReplaySubject<User>()
+  current: ReplaySubject<User|undefined> = new ReplaySubject<User|undefined>()
 
   constructor(public http: Http,
               public signed: SignedHttpClient,
               public config: Config,
-              public storage: Storage) {
+              public storage: Storage,
+              public toaster: ToasterService) {
     this.baseUrl  = config.get('kidfooApiUrl') + '/user'
     this.loginUrl = this.baseUrl + '/sign_in'
     this.users    = []
+    // Subscribing to any user changes
     this.current.subscribe(
       (user) => this.setToken(user.token),
       (err) => this.unsetToken()
     )
+    // Getting Cached Token
     this.storage.get('token').then(
       (token) => {
         if(token){
@@ -41,6 +45,7 @@ export class UserService {
         }
       }
     )
+    // Getting cached user data
     this.storage.get('currentUser').then(
       (user) => {
         if(!!user){
@@ -50,6 +55,7 @@ export class UserService {
       }
     )
   }
+
   reloadCurrent(): Promise<User> {
     let response = this.signed.get(this.baseUrl).map(
       (res) => res.json().data as User
@@ -62,27 +68,31 @@ export class UserService {
     )
     return response.toPromise()
   }
+
   setToken(token: string):string {
     this.signed.setAuthorizationHeaders(token)
     this.storage.set('token', token)
     return this.token = token
   }
+
   unsetToken():void{
     this.token = undefined
     this.signed.headers.delete(this.signed.authorizationHeader())
     this.storage.set('token', undefined)
   }
+
   signIn(email: string, password: string): Promise<User> {
-    let signInObservable = this.http.post(this.loginUrl, { email: email,
+    let signInPromise = this.http.post(this.loginUrl, { email: email,
                                                           password: password })
-                           .map(res => res.json().data as User)
-    signInObservable.subscribe(
+                           .map(res => res.json().data as User).toPromise()
+    signInPromise.then(
       (user) => {
         this._push(user)
         this.setCurrent(user.token)
-      }
+      },
+      (err) => this.toaster.sendToast(err.json().data )
     )
-    return signInObservable.toPromise()
+    return signInPromise
   }
 
   create(user: User): Promise<User> {
@@ -92,6 +102,9 @@ export class UserService {
     request.then((user)=> {
       this._push(user)
       this.setCurrent(user.token)
+    },
+    (err) => {
+      this.toaster.sendToast(err.json().data)
     })
     return request
   }
