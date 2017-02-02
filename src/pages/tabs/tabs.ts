@@ -22,7 +22,10 @@ export class TabsPage {
 
   constructor(public userService: UserService) {
     userService.current.map((user) => !!user).subscribe(
-        (val) => { this.isAuthenticated = val }
+        (val) => {
+          this.isAuthenticated = val
+        },
+        (val) => { this.isAuthenticated = false }
       )
   }
 }

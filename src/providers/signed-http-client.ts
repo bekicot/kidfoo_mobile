@@ -10,15 +10,12 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class SignedHttpClient {
-  headers?: Headers
+  headers: Headers = new Headers()
   constructor(public http: Http) {
 
   }
-  setAuthorizationHeaders(token: string):void {
-    if(!this.headers) {
-      this.headers = new Headers()
-    }
-    this.headers.append('Authorization', 'Bearer ' + token)
+  setAuthorizationHeaders(access_token: string):void {
+    this.headers.append('Authorization', 'Bearer ' + access_token)
   }
   authorizationHeader() {
     return this.headers.get('Authorization')

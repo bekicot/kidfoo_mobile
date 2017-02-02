@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Config } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { ReplaySubject} from 'rxjs/rx';
+import { ReplaySubject } from 'rxjs/rx';
 import 'rxjs/add/operator/toPromise';
 
 import { User } from './user';
@@ -20,9 +20,9 @@ import 'rxjs/add/operator/map';
 export class UserService {
   baseUrl: string
   loginUrl: string
-  token?: string
+  access_token?: string
   users: User[]
-  current: ReplaySubject<User|undefined> = new ReplaySubject<User|undefined>()
+  current: ReplaySubject<User|undefined>
 
   constructor(public http: Http,
               public signed: SignedHttpClient,
@@ -32,53 +32,54 @@ export class UserService {
     this.baseUrl  = config.get('kidfooApiUrl') + '/user'
     this.loginUrl = this.baseUrl + '/sign_in'
     this.users    = []
-    // Subscribing to any user changes
-    this.current.subscribe(
-      (user) => this.setToken(user.token),
-      (err) => this.unsetToken()
-    )
-    // Getting Cached Token
-    this.storage.get('token').then(
-      (token) => {
-        if(token){
-          this.setToken(token)
-        }
-      }
-    )
-    // Getting cached user data
     this.storage.get('currentUser').then(
       (user) => {
         if(!!user){
           this._push(user)
-          this.setCurrent(user.token)
+          this.setCurrent(user.access_token).then(
+            // Check User Status, is it still logged in
+            // Do nothing when offline
+            () => {
+              this.reloadCurrent()
+            }
+          )
         }
       }
     )
+    this.current = new ReplaySubject<User|undefined>()
   }
 
   reloadCurrent(): Promise<User> {
     let response = this.signed.get(this.baseUrl).map(
       (res) => res.json().data as User
-    )
-    response.subscribe(
+    ).toPromise()
+    response.then(
       (user) => {
         this._push(user)
-        this.setCurrent(user.token)
-      }
+        this.setCurrent(user.access_token)
+      },
+      (err) => {
+        if(err.status == 401) {
+          this.destroySession()
+        }
+       }
     )
-    return response.toPromise()
+    return response
+  }
+  destroySession(): void {
+    this.current.next(undefined)
   }
 
-  setToken(token: string):string {
-    this.signed.setAuthorizationHeaders(token)
-    this.storage.set('token', token)
-    return this.token = token
+  setToken(access_token: string):string {
+    this.signed.setAuthorizationHeaders(access_token)
+    this.storage.set('access_token', access_token)
+    return this.access_token = access_token
   }
 
   unsetToken():void{
-    this.token = undefined
+    this.access_token = undefined
     this.signed.headers.delete(this.signed.authorizationHeader())
-    this.storage.set('token', undefined)
+    this.storage.set('access_token', undefined)
   }
 
   signIn(email: string, password: string): Promise<User> {
@@ -88,7 +89,7 @@ export class UserService {
     signInPromise.then(
       (user) => {
         this._push(user)
-        this.setCurrent(user.token)
+        this.setCurrent(user.access_token)
       },
       (err) => this.toaster.sendToast(err.json().data )
     )
@@ -101,7 +102,7 @@ export class UserService {
     ).toPromise()
     request.then((user)=> {
       this._push(user)
-      this.setCurrent(user.token)
+      this.setCurrent(user.access_token)
     },
     (err) => {
       this.toaster.sendToast(err.json().data)
@@ -118,21 +119,25 @@ export class UserService {
     return undefined
   }
 
-  findUserByToken(token: string): User|undefined {
+  findUserByToken(access_token: string): User|undefined {
     for(let user of this.users) {
-      if(user.token == token) {
+      if(user.access_token === access_token) {
         return user
       }
     }
     return undefined
   }
 
-  setCurrent(token: string): Promise<User> {
-    let foundUser = this.findUserByToken(token)
-    this.signed.setAuthorizationHeaders(token)
+  setCurrent(access_token: string|undefined ): Promise<User> {
+    if(access_token === undefined){
+      this.destroySession()
+      return new Promise((resolve, reject) => reject(undefined))
+    }
+    let foundUser = this.findUserByToken(access_token)
+    this.signed.setAuthorizationHeaders(access_token)
     if(foundUser) {
       this.current.next(foundUser)
-      this.storage.set('currentUser', foundUser)
+      this.storeCurrentUser(foundUser)
       return new Promise((resolve) => resolve(foundUser))
     } else {
       let response = this.signed.get(this.baseUrl).map(
@@ -140,7 +145,10 @@ export class UserService {
         () => console.log('Something Went wrong, is the user authenticated?')
       )
       response.subscribe(
-        (user) => this.current.next(user)
+        (user) => {
+          this.current.next(user)
+          this.storeCurrentUser(user)
+        }
       )
       return response.toPromise()
     }
@@ -150,5 +158,9 @@ export class UserService {
     this.users.push(user)
     this.storage.set('users',this.users)
     return user;
+  }
+
+  private storeCurrentUser(user: User): Promise<User> {
+    return this.storage.set('currentUser', user)
   }
 }

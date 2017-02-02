@@ -12,7 +12,6 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 export class MyApp {
   rootPage = TabsPage
-  isAuthenticated: boolean = false
   email = null
   password = null
 
