@@ -1,0 +1,29 @@
+export class Kid {
+  name
+  birthdate
+  gender
+  bedtime
+  sleeproutine
+  allergies
+  nonos
+  family_id
+  created_at
+  updated_at
+  avatar_url
+  nap1
+  nap2
+  nap3
+  naproutine
+  breakfasttime
+  breakfastdetails
+  snack1time
+  snack1details
+  lunchtime
+  lunchdetails
+  snack2time
+  snack2details
+  dinnertime
+  dinnerdetails
+  afterdinnertime
+  afterdinnerdetails
+}

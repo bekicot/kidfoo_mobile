@@ -1,3 +1,4 @@
+import { Kid } from './kid';
 import { ToasterService } from './toaster-service';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
@@ -154,8 +155,14 @@ export class UserService {
     }
   }
 
+  getKids(): Promise<Kid[]>{
+    return this.signed.get(this.baseUrl + '/kids')
+      .map((kids)=> kids.json().data as Kid[] )
+      .toPromise()
+  }
+
   private _push(user: User): User {
-    this.users.push(user)
+    this.users.unshift(user)
     this.storage.set('users',this.users)
     return user;
   }

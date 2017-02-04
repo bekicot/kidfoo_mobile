@@ -38,3 +38,8 @@ export class HomePage {
     this.userService.destroySession()
   }
 }
+
+
+
+// WEBPACK FOOTER //
+// ./src/pages/home/home.ts

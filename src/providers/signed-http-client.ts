@@ -15,7 +15,7 @@ export class SignedHttpClient {
 
   }
   setAuthorizationHeaders(access_token: string):void {
-    this.headers.append('Authorization', 'Bearer ' + access_token)
+    this.headers.set('Authorization', 'Bearer ' + access_token)
   }
   authorizationHeader() {
     return this.headers.get('Authorization')

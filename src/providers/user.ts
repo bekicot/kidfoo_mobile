@@ -1,3 +1,4 @@
+import { Kid } from './kid'
 export class User {
   id?: number
   role?: string
@@ -17,4 +18,5 @@ export class User {
       return this.first_name + ' ' + this.last_name || ' '
     }
   }
+
 }

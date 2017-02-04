@@ -12,16 +12,15 @@
 
 </ion-header>
 
-
 <ion-content padding>
-  <ion-list>
+  <ion-list *ngIf="kids.length > 0">
     <ion-item *ngFor="let kid of kids">
-      <ion-avatar item-left>
-        <img src="img/avatar-finn.png">
-      </ion-avatar>
+      <ion-thumbnail item-left>
+        <img src="{{kid.avatar_url}}">
+      </ion-thumbnail>
       <h2>{{kid.name}}</h2>
-      <h3>{{kid}}</h3>
-      <p>{{kid}}</p>
+      <p>{{kid.gender}} • {{kid.birthdate}}</p>
+      <!--<button ion-button clear item-right>View</button>-->
     </ion-item>
   </ion-list>
 </ion-content>
