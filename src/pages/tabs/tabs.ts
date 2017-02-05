@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { UserService } from '../../providers/user-service';
 import { HomePage } from '../home/home';
-import { AboutPage } from '../about/about';
+import { NetworkPage } from '../network/network';
 import { KidsPage } from '../kids/kids';
 import { SignUpPage } from '../sign-up/sign-up';
 import { SignInPage } from '../sign-in/sign-in';
@@ -14,7 +14,7 @@ export class TabsPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
   tab2Root: any = HomePage
-  tab3Root: any = AboutPage
+  tab3Root: any = NetworkPage
   tab4Root: any = KidsPage
   tab5Root: any = SignUpPage
   tab6Root: any = SignInPage

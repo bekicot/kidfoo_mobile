@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Network
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      Family
+    </ion-card-header>
+    <img src="{{ family.avatar_url }}"/>
+    <ion-card-content>
+      <ion-card-title>
+        {{family.name}}
+      </ion-card-title>
+      <p>
+        {{family.emerg_contact_1}}
+      </p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      Family Network
+    </ion-card-header>
+    <ion-list>
+      <button ion-item *ngFor="let family of families" (click)="familyDetails(family)">
+        <ion-avatar item-left>
+          <img src="{{family.avatar_url}}">
+        </ion-avatar>
+        <h2>{{family.name}}</h2>
+        <p>{{family.emerg_contact_1}}</p>
+      </button>
+    </ion-list>
+  </ion-card>
+</ion-content>

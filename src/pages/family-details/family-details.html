@@ -1,0 +1,23 @@
+<!--
+  Generated template for the FamilyDetails page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>familyDetails</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let key of familyKeys">
+      <h2>{{key}}</h2>
+      <h3>{{family[key]}}</h3>
+    </ion-item>
+  </ion-list>
+</ion-content>

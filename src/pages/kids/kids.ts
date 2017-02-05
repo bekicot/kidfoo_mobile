@@ -17,7 +17,7 @@ import { NavController, NavParams, LoadingController, Loading } from 'ionic-angu
 })
 export class KidsPage {
   kids: Kid[]
-  private loader: Loading
+  loader: Loading
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public userService: UserService,

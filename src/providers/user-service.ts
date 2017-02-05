@@ -1,3 +1,4 @@
+import { Family } from './family';
 import { Kid } from './kid';
 import { ToasterService } from './toaster-service';
 import { Injectable } from '@angular/core';
@@ -161,6 +162,20 @@ export class UserService {
       .toPromise()
   }
 
+  getFamily(): Promise<Family> {
+    const familyObs = this.signed.get(this.baseUrl + '/family')
+                  .map((fam) => fam.json().data as Family).toPromise()
+    familyObs.catch(this._generic_error_handler)
+    return familyObs
+  }
+
+  getFamilies(): Promise<Family[]>{
+    let familyObs = this.signed.get(this.baseUrl + '/families')
+                  .map((fam) => fam.json().data as Family[]).toPromise()
+    familyObs.catch(this._generic_error_handler)
+    return familyObs
+  }
+
   private _push(user: User): User {
     this.users.unshift(user)
     this.storage.set('users',this.users)
@@ -169,5 +184,9 @@ export class UserService {
 
   private storeCurrentUser(user: User): Promise<User> {
     return this.storage.set('currentUser', user)
+  }
+
+  private _generic_error_handler(error):void {
+    this.toaster.sendToast(error.json().data.values)
   }
 }
