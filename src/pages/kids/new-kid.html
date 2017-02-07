@@ -1,0 +1,104 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>New Kid</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <form #newKid="ngForm" (ngSubmit)="createKid(newKid)">
+        <ion-list>
+            <ion-item>
+                <ion-label stacked>Name</ion-label>
+                <ion-input type="text" ngModel name="name" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Birthdate</ion-label>
+                <ion-datetime displayFormat="D:M:YYYY" type="date" ngModel name="birthdate"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Gender</ion-label>
+                <ion-input type="text" ngModel name="gender"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Bedtime</ion-label>
+                <ion-datetime displayFormat="H:mm" ngModel name="bedtime"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Sleeproutine</ion-label>
+                <ion-input type="text" ngModel name="sleeproutine"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Allergies</ion-label>
+                <ion-input type="text" ngModel name="allergies"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Nonos</ion-label>
+                <ion-input type="text" ngModel name="nonos"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Nap1</ion-label>
+                <ion-datetime displayFormat="H:mm" type="text" ngModel name="nap1"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Nap2</ion-label>
+                <ion-datetime displayFormat="H:mm" type="text" ngModel name="nap2"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Nap3</ion-label>
+                <ion-datetime displayFormat="H:mm" type="text" ngModel name="nap3"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Naproutine</ion-label>
+                <ion-input type="text" ngModel name="naproutine"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Breakfasttime</ion-label>
+                <ion-datetime displayFormat="H:mm" type="text" ngModel name="breakfasttime"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Breakfastdetails</ion-label>
+                <ion-input type="text" ngModel name="breakfastdetails"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Snack1time</ion-label>
+                <ion-datetime displayFormat="H:mm" type="text" ngModel name="snack1time"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Snack1details</ion-label>
+                <ion-input type="text" ngModel name="snack1details"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Lunchtime</ion-label>
+                <ion-datetime displayFormat="H:mm" type="text" ngModel name="lunchtime"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Lunchdetails</ion-label>
+                <ion-input type="text" ngModel name="lunchdetails"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Snack2time</ion-label>
+                <ion-datetime displayFormat="H:mm" type="text" ngModel name="snack2time"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Snack2details</ion-label>
+                <ion-input type="text" ngModel name="snack2details"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Dinnertime</ion-label>
+                <ion-datetime displayFormat="H:mm" type="text" ngModel name="dinnertime"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Dinnerdetails</ion-label>
+                <ion-input type="text" ngModel name="dinnerdetails"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Afterdinnertime</ion-label>
+                <ion-datetime displayFormat="H:mm" type="text" ngModel name="afterdinnertime"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Afterdinnerdetails</ion-label>
+                <ion-input type="text" ngModel name="afterdinnerdetails"></ion-input>
+            </ion-item>
+        </ion-list>
+        <button ion-button color="primary" block type="submit">Create Kid</button>
+    </form>
+</ion-content>

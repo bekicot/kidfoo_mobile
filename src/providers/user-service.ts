@@ -12,12 +12,6 @@ import { User } from './user';
 import { SignedHttpClient } from './signed-http-client'
 import 'rxjs/add/operator/map';
 
-/*
-  Generated class for the UserService provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class UserService {
   baseUrl: string
@@ -156,10 +150,15 @@ export class UserService {
     }
   }
 
-  getKids(): Promise<Kid[]>{
+  getKids(): Promise<Kid[]> {
     return this.signed.get(this.baseUrl + '/kids')
       .map((kids)=> kids.json().data as Kid[] )
       .toPromise()
+  }
+
+  createKid(kid: Kid): Promise<Kid> {
+    let kidProm = this.signed.post(this.baseUrl + '/kids', kid).map((kid) => kid.json().data as Kid).toPromise()
+    return kidProm
   }
 
   getFamily(): Promise<Family> {

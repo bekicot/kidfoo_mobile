@@ -1,3 +1,4 @@
+import { NewKidPage } from '../pages/kids/new-kid';
 import { LoaderService } from '../providers/loader-service';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
@@ -34,7 +35,8 @@ import { FamilyDetailsPage } from '../pages/family-details/family-details';
     KidsPage,
     SignUpPage,
     SignInPage,
-    FamilyDetailsPage
+    FamilyDetailsPage,
+    NewKidPage
   ],
   imports: [
     IonicModule.forRoot(MyApp,{
@@ -55,7 +57,8 @@ import { FamilyDetailsPage } from '../pages/family-details/family-details';
     KidsPage,
     SignUpPage,
     SignInPage,
-    FamilyDetailsPage
+    FamilyDetailsPage,
+    NewKidPage
   ],
   providers: [Storage, User, UserService, ToasterService, LoaderService,SignedHttpClient, { provide: ErrorHandler, useClass: KidfoErrorHandler }]
 })

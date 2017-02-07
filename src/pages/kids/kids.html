@@ -19,8 +19,11 @@
         <img src="{{kid.avatar_url}}">
       </ion-thumbnail>
       <h2>{{kid.name}}</h2>
-      <p>{{kid.gender}} • {{kid.birthdate}}</p>
+      <p *ngIf="!!kid.gender && !!kid.birthdate">{{kid.gender}} • {{kid.birthdate}}</p>
       <!--<button ion-button clear item-right>View</button>-->
     </ion-item>
   </ion-list>
+  <ion-fab bottom right >
+    <button ion-fab (click)="newKid()">+</button>
+  </ion-fab>
 </ion-content>

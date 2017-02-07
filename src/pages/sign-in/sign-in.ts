@@ -19,7 +19,7 @@ export class SignInPage {
   }
 
   signIn(user) {
-    this.userService.signIn(user.value.email, user.value.password);
+    this.userService.signIn(user.value.email, user.value.password)
   }
 
 }

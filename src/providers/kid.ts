@@ -6,7 +6,6 @@ export class Kid {
   sleeproutine
   allergies
   nonos
-  family_id
   created_at
   updated_at
   avatar_url

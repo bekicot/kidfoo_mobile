@@ -1,3 +1,4 @@
+import { NewKidPage } from './new-kid';
 import { ToasterService } from '../../providers/toaster-service';
 import { UserService } from '../../providers/user-service';
 import { Kid } from '../../providers/kid';
@@ -18,6 +19,7 @@ import { NavController, NavParams, LoadingController, Loading } from 'ionic-angu
 export class KidsPage {
   kids: Kid[]
   loader: Loading
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public userService: UserService,
@@ -25,6 +27,7 @@ export class KidsPage {
               public toast: ToasterService) {
     this.kids = []
   }
+
   ionViewWillEnter() {
     this.presentLoader()
     this.userService.getKids().then(
@@ -38,6 +41,7 @@ export class KidsPage {
       }
     )
   }
+
   public presentLoader(): void {
     this.loader = this.loadingController.create({
       content: 'Retrieving Kids...',
@@ -45,10 +49,14 @@ export class KidsPage {
     })
     this.loader.present()
   }
+
   public dismissLoader(): void {
     this.loader.dismiss()
   }
 
+  public newKid(): void {
+    this.navCtrl.push(NewKidPage, { kid: new Kid })
+  }
   private _processError(error):void {
     switch (error.status) {
       case 0:
